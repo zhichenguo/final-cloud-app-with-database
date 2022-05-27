@@ -155,12 +155,19 @@ def show_exam_result(request, course_id, submission_id):
 
             full += question.grade
 
+        for choice in selected:
+            if choice not in answers:
+                point -= question.grade
+
         question_result = {
             "question": question,
             "selected": selected
         }
 
         result_set.append(question_result)
+    
+    if point < 0:
+        point = 0
 
     grade = int(point / full * 100)
     
